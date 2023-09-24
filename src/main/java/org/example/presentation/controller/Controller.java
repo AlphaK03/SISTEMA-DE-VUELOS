@@ -21,6 +21,7 @@ public class Controller {
     private View view;
 
     public Controller(Model model, View view) {
+        model.init(Service.instance().getData().getVuelos());
         this.model = model;
         this.view = view;// Inicializa el servicio
 

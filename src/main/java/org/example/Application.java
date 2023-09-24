@@ -1,4 +1,10 @@
 package org.example;
+/*
+Universidad Nacional de Costa Rica
+Estudiante: Keylor Josué Cortés Cascante 504350713
+Profesor: Jose Sanchez
+Ciclo II 2023
+*/
 
 import org.example.data.Data;
 import org.example.logic.Ciudad;

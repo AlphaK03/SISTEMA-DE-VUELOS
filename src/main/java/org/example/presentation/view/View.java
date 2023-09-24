@@ -11,10 +11,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumnModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.*;
 import java.util.*;
 
 public class View implements Observer {
@@ -40,6 +37,7 @@ public class View implements Observer {
 
     public View() {
         initComponents();
+        guardarButton.setEnabled(false);
         limpiarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -48,6 +46,15 @@ public class View implements Observer {
                 comboBoxDestino.setSelectedItem("San Jose");
                 comboBoxHoraSalida.setSelectedItem(1);
                 comboBoxHoraLlegada.setSelectedItem(1);
+                guardarButton.setEnabled(false);
+
+            }
+        });
+        textFieldNumero.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                guardarButton.setEnabled(!textFieldNumero.getText().isEmpty());
+                super.keyTyped(e);
 
             }
         });
@@ -55,7 +62,6 @@ public class View implements Observer {
 
 
     private void initComponents() {
-        initTable();
         initComboBoxes();
         guardarButton.addActionListener(new ActionListener() {
             @Override
@@ -100,6 +106,7 @@ public class View implements Observer {
                     }
                     actualizarTablaVuelos();
                     limpiarCampos();
+                    guardarButton.setEnabled(false);
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
@@ -126,6 +133,8 @@ public class View implements Observer {
                 VueloTableModel tableModel = new VueloTableModel(vuelosEncontrados);
                 listVuelos.setModel(tableModel);
                 tableModel.fireTableDataChanged();
+                limpiarCampos();
+                guardarButton.setEnabled(false);
             }
         });
 
@@ -149,6 +158,7 @@ public class View implements Observer {
                         comboBoxHoraLlegada.setSelectedItem(Integer.parseInt(horaLlegada));
                         textFieldNumero.setText(numero);
                         textFieldNumero.setEnabled(false);
+                        guardarButton.setEnabled(true);
 
                     }
                 }
@@ -176,14 +186,6 @@ public class View implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-       initTable();
-    }
-
-    public void setController(Controller controller) {
-        this.controller = controller;
-    }
-
-    public void initTable(){
         try {
             listVuelos.setModel(new VueloTableModel(Service.instance().getData().getVuelos()));
             listVuelos.setRowHeight(30);
@@ -195,6 +197,11 @@ public class View implements Observer {
         }
         this.panel1.revalidate();
     }
+
+    public void setController(Controller controller) {
+        this.controller = controller;
+    }
+
 
 
     public void initComboBoxes(){

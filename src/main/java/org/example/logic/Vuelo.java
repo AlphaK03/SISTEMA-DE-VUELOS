@@ -4,14 +4,12 @@ package org.example.logic;
 import jakarta.xml.bind.annotation.*;
 
 
-@XmlType(propOrder = {"numero", "ciudadOrigen", "ciudadDestino", "horaSalida", "horaLlegada"})
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Vuelo {
     private String numero;
-    @XmlIDREF
-    @XmlElement
+    @XmlIDREF //Referencia al identificador de un objeto tipo Ciudad
     private Ciudad ciudadOrigen;
     @XmlIDREF
-    @XmlElement
 
     private Ciudad ciudadDestino;
     private String horaSalida;

@@ -7,15 +7,19 @@ import java.util.Observable;
 import java.util.List;
 import java.util.Observer;
 
-public class Model extends Observable {
-    private List<Vuelo> vuelos;
+import java.util.List;
+import java.util.Observer;
 
-    public Model() {
-    }
+public class Model extends Observable {
+    List<Vuelo> list;
+    Vuelo current;
+
+    int changedProps = NONE;
 
     @Override
-    public synchronized void addObserver(Observer o) {
+    public void addObserver(Observer o) {
         super.addObserver(o);
+        commit();
     }
 
     @Override
@@ -23,25 +27,59 @@ public class Model extends Observable {
         super.setChanged();
     }
 
-    public void setVuelos(List<Vuelo> vuelos) {
-        this.vuelos = vuelos;
+    public void commit() {
         setChanged();
-        notifyObservers(vuelos);
+        notifyObservers(changedProps);
+        notifyObservers(LIST);
+        changedProps = NONE;
     }
 
-    // Otras funciones para administrar datos en el modelo
-
-    public List<Vuelo> getVuelos() {
-        return vuelos;
+    public Model() {
     }
 
-    public Ciudad getCiudadById(String id) {
-        // Implementa la lógica para obtener una ciudad por su ID
-        return null;
+    public void init(List<Vuelo> list) {
+        setList(list);
+        setCurrent(new Vuelo()); // Crea una instancia de Instrumento en lugar de TipoInstrumento
     }
 
-    public Vuelo getVueloByNumero(String numero) {
-        // Implementa la lógica para obtener un vuelo por su número
-        return null;
+    public List<Vuelo> getList() {
+        return list;
     }
+
+    public void setList(List<Vuelo> list) {
+        this.list = list;
+        changedProps += LIST;
+    }
+
+    public Vuelo getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(Vuelo current) {
+        changedProps += CURRENT;
+        this.current = current;
+    }
+
+    public void delete(Vuelo instrumento) {
+        list.remove(instrumento);
+        setCurrent(new Vuelo()); // Crea una instancia de Instrumento en lugar de TipoInstrumento
+        changedProps |= LIST;
+        commit();
+    }
+
+    public void enableEditing() {
+        setChanged();
+        notifyObservers(CURRENT);
+    }
+
+    public void update(Vuelo vuelo) {
+        list.replaceAll(i -> i.getNumero().equals(vuelo.getNumero()) ? vuelo : i);
+        setChanged();
+        notifyObservers(LIST);
+    }
+
+    public static int NONE = 0;
+    public static int LIST = 1;
+    public static int CURRENT = 2;
 }
+
