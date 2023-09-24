@@ -1,5 +1,10 @@
 package org.example;
 
+import org.example.data.Data;
+import org.example.logic.Ciudad;
+import org.example.logic.Service;
+import org.example.logic.Vuelo;
+import org.example.logic.XmlPersister;
 import org.example.presentation.controller.Controller;
 import org.example.presentation.model.Model;
 import org.example.presentation.view.View;
@@ -8,11 +13,13 @@ import javax.swing.*;
 import java.util.Objects;
 
 public class Application {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         try {
-            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");}
-        catch (Exception ignored) {};
+            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+        } catch (Exception ignored) {
+        }
+        ;
 
         JFrame window = new JFrame();
 
@@ -23,10 +30,9 @@ public class Application {
         JTabbedPane tabbedPane = new JTabbedPane();
 
         tabbedPane.addTab("Vuelos", view.getPanel1());
-
         window.getContentPane().add(tabbedPane);
 
-        window.setSize(900,450);
+        window.setSize(900, 450);
         window.setResizable(true);
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         ImageIcon icon = new ImageIcon(Objects.requireNonNull(Application.class.getResource("/vuelos/presentation/icons/globe.png")));

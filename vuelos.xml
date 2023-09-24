@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<data>
+    <ciudades>
+        <ciudad>
+            <id>SJO</id>
+            <nombre>San Jose</nombre>
+            <gmt>-6</gmt>
+        </ciudad>
+        <ciudad>
+            <id>MIA</id>
+            <nombre>Miami</nombre>
+            <gmt>-5</gmt>
+        </ciudad>
+        <ciudad>
+            <id>NYC</id>
+            <nombre>Nueva York</nombre>
+            <gmt>-4</gmt>
+        </ciudad>
+        <ciudad>
+            <id>MAD</id>
+            <nombre>Madrid</nombre>
+            <gmt>1</gmt>
+        </ciudad>
+    </ciudades>
+</data>
